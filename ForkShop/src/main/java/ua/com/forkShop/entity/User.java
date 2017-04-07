@@ -30,7 +30,7 @@ public class User implements UserDetails {
 	private int id;
 	
 	@Column(name="_name")
-	private String username;
+	private String name;
 	
 	private String email;
 	
@@ -40,6 +40,14 @@ public class User implements UserDetails {
 	@Column(name="_role")
 	private Role role;
 	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	@ManyToOne(fetch=FetchType.LAZY)
 	private ShopingCart shopingCart;
 	
@@ -59,8 +67,8 @@ public class User implements UserDetails {
 		this.id = id;
 	}
 	
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUsername(String name) {
+		this.name = name;
 	}
 
 	public String getEmail() {

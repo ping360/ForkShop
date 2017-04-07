@@ -24,4 +24,8 @@ public interface ItemService {
 	int findCount(int id);
 
 	List<Item> findByUserId(int userId);
+
+	Item findOne(int id);
+
+//	List<Item> findAllPrice(int itemId);
 }

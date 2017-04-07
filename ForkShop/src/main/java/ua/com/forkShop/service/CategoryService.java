@@ -20,17 +20,5 @@ public interface CategoryService {
 
 	Category findOne(String name);
 
-	void addNofs(int id, int nofsId);
-
-	void addNofd(int id, int nofdId);
-
-	Category loadedNofs(int id);
-
-	Category loadedNofd(int id);
-
-	void deleteNofs(int id, int nofsId);
-
-	void deleteNofd(int id, int nofdId);
-
 	Page<Category> findAll(BasicFilter filter, Pageable pageable);
 }

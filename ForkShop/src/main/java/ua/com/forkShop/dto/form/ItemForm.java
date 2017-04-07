@@ -26,8 +26,6 @@ public class ItemForm {
 
 	private List<FeatureString> featureStrings = new ArrayList<>();
 
-	private List<FeatureDigitalForm> featureDigitals = new ArrayList<>();
-
 	private MultipartFile file;
 
 	public int getId() {
@@ -84,14 +82,6 @@ public class ItemForm {
 
 	public void setFeatureStrings(List<FeatureString> featureStrings) {
 		this.featureStrings = featureStrings;
-	}
-
-	public List<FeatureDigitalForm> getFeatureDigitals() {
-		return featureDigitals;
-	}
-
-	public void setFeatureDigitals(List<FeatureDigitalForm> featureDigitals) {
-		this.featureDigitals = featureDigitals;
 	}
 
 	public MultipartFile getFile() {

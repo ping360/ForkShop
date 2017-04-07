@@ -49,4 +49,9 @@ public class DigitalUnitServiceImpl implements DigitalUnitService{
 	public Page<DigitalUnit> findAll(BasicFilter filter, Pageable pageable) {
 		return digitalUnitRepository.findAll(new DigitalUnitSpecification(filter), pageable);
 }
+
+	@Override
+	public List<DigitalUnit> findAllByItem(int id) {
+		return digitalUnitRepository.findAllByItems(id);
+	}
 }

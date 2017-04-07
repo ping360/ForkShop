@@ -17,8 +17,6 @@
 					<li><a href="/admin/category">Category</a></li>
 					<li><a href="/admin/du">Digital Unit</a></li>
 					<li><a href="/admin/brand">Brand</a></li>
-					<li><a href="/admin/nofd">Name of feature digital</a></li>
-					<li><a href="/admin/nofs">Name of feature string</a></li>
 					<li><a href="/admin/fs">Feature String</a></li>
 					<li><a href="/admin/item">Item</a></li>
 				</ul>

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,29 +21,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import ua.com.forkShop.dto.filter.BasicFilter;
 import ua.com.forkShop.dto.filter.FeatureDigitalFilter;
 import ua.com.forkShop.dto.filter.ItemFilter;
 import ua.com.forkShop.dto.form.ItemForm;
 import ua.com.forkShop.editor.BrandEditor;
 import ua.com.forkShop.editor.CategoryEditor;
 import ua.com.forkShop.editor.DigitalUnitEditor;
-import ua.com.forkShop.editor.NameOfFeatureDigitalEditor;
-import ua.com.forkShop.editor.NameOfFeatureStringEditor;
+import ua.com.forkShop.editor.FeatureStringEditor;
 import ua.com.forkShop.entity.Brand;
 import ua.com.forkShop.entity.Category;
 import ua.com.forkShop.entity.DigitalUnit;
+import ua.com.forkShop.entity.FeatureString;
 import ua.com.forkShop.service.BrandService;
 import ua.com.forkShop.service.CategoryService;
 import ua.com.forkShop.service.DigitalUnitService;
 import ua.com.forkShop.service.FeatureStringService;
 import ua.com.forkShop.service.ItemService;
-import ua.com.forkShop.service.NameOfFeatureDigitalService;
-import ua.com.forkShop.service.NameOfFeatureStringService;
 import ua.com.forkShop.validator.ItemValidator;
 
 @Controller
 @RequestMapping("/admin/item")
-@SessionAttributes(names="item")
+@SessionAttributes("item")
 public class ItemController {
 
 	@Autowired
@@ -55,12 +55,6 @@ public class ItemController {
 	private CategoryService categoryService;
 	
 	@Autowired
-	private NameOfFeatureStringService nameOfFeatureStringService;
-	
-	@Autowired
-	private NameOfFeatureDigitalService nameOfFeatureDigitalService;
-	
-	@Autowired
 	private FeatureStringService featureStringService;
 	
 	@Autowired
@@ -70,9 +64,8 @@ public class ItemController {
 	protected void initBinder(WebDataBinder binder){
 		binder.registerCustomEditor(Category.class, new CategoryEditor(categoryService));
 		binder.registerCustomEditor(Brand.class, new BrandEditor(brandService));
-		binder.registerCustomEditor(NameOfFeatureStringService.class, new NameOfFeatureStringEditor(nameOfFeatureStringService));
-		binder.registerCustomEditor(NameOfFeatureDigitalService.class, new NameOfFeatureDigitalEditor(nameOfFeatureDigitalService));
 		binder.registerCustomEditor(DigitalUnit.class, new DigitalUnitEditor(digitalUnitService));
+		binder.registerCustomEditor(FeatureString.class, new FeatureStringEditor(featureStringService));
 		binder.setValidator(new ItemValidator());
 	}
 	
@@ -91,9 +84,8 @@ public class ItemController {
 		model.addAttribute("page", itemService.findAll(filter, pageable));
 		model.addAttribute("categories", categoryService.findAll());
 		model.addAttribute("brands", brandService.findAll());
-		model.addAttribute("nofss", nameOfFeatureStringService.findAllLoadedFS());
-		model.addAttribute("nofds", nameOfFeatureDigitalService.findAllLoadedFD());
 		model.addAttribute("digitalUnits", digitalUnitService.findAll());
+		model.addAttribute("featureStrings", featureStringService.findAll());
 		return "admin-item";
 	}
 	
@@ -103,15 +95,11 @@ public class ItemController {
 		return "redirect:/admin/item"+getParams(pageable, filter);
 	}
 	
-	@RequestMapping("/add/{id}")
-	public String showAdd(@PathVariable int id, Model model, @PageableDefault Pageable pageable, @ModelAttribute("filter") ItemFilter filter){
-		model.addAttribute("digitalUnit",digitalUnitService.findAll());
-		model.addAttribute("page", itemService.findAll(filter, pageable));
-		model.addAttribute("category", categoryService.findOne(id));
-		model.addAttribute("nofss", nameOfFeatureStringService.findByCategoryId(id));
-		model.addAttribute("nofds", nameOfFeatureDigitalService.findByCategoryId(id));
-		model.addAttribute("brands", brandService.findAll());
-		return "admin-item";
+	@GetMapping("/update/{id}")
+	public String update(@PathVariable int id, Model model, @PageableDefault Pageable pageable, @ModelAttribute("filter") ItemFilter filter) {
+		model.addAttribute("item", itemService.findOne(id));
+		show(model, pageable, filter);
+		return "admin-brand";
 	}
 	
 	@RequestMapping(method=POST)
@@ -193,6 +181,6 @@ public class ItemController {
 	@RequestMapping("/cancel")
 	public String cancel(SessionStatus status) {
 		status.setComplete();
-		return "redirect:/admin/brand";
+		return "redirect:/admin/item";
 	}
 }

@@ -21,5 +21,7 @@ public interface DigitalUnitService {
 	DigitalUnit findOne(String name);
 	
 	Page<DigitalUnit> findAll(BasicFilter filter, Pageable pageable);
-	
+
+	List<DigitalUnit> findAllByItem(int id);
+
 }

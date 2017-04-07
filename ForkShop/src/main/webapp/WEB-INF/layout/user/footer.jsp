@@ -3,7 +3,7 @@
 <footer class="navbar navbar-default navbar-fixed-bottom">
 	<div class="container-fluid">
 		<div class="row text-center">
-			<h2>Footer</h2>
+			<h4>типу Footer, і він дуже чоткий)</h4>
 		</div>
 	</div>
 </footer>

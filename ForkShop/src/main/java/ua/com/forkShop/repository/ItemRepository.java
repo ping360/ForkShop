@@ -26,4 +26,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer>, JpaSpecifi
 
 	@Query("SELECT i FROM Item i JOIN i.shopingCarts sc JOIN sc.users u WHERE u.id=?1")
 	List<Item> findByUserId(int userId);
+	
+//	@Query("SELECT DISTINCT sum(i.price) FROM Item i WHERE i.id=?1")
+//	List<Item> findAllPrice(int id);
 }

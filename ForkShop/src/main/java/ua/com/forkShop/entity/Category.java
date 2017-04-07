@@ -9,9 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -29,18 +26,6 @@ public class Category {
 	@OneToMany(mappedBy="category")
 	private List<Item> items = new ArrayList<Item>();
 	
-	@ManyToMany
-	@JoinTable(name="category_name_of_feature_digital",
-	joinColumns=@JoinColumn(name="id_category"),
-	inverseJoinColumns=@JoinColumn(name="id_name_of_feature_digital"))
-	private List<NameOfFeatureDigital> nameOfFeatureDigitals = new ArrayList<NameOfFeatureDigital>();
-
-	@ManyToMany
-	@JoinTable(name="category_name_of_feature_string",
-	joinColumns=@JoinColumn(name="id_category"),
-	inverseJoinColumns=@JoinColumn(name="id_name_of_feature_string"))
-	private List<NameOfFeatureString> nameOfFeatureStrings = new ArrayList<NameOfFeatureString>();
-
 	public int getId() {
 		return id;
 	}
@@ -63,22 +48,6 @@ public class Category {
 
 	public void setItems(List<Item> items) {
 		this.items = items;
-	}
-
-	public List<NameOfFeatureDigital> getNameOfFeatureDigitals() {
-		return nameOfFeatureDigitals;
-	}
-
-	public void setNameOfFeatureDigitals(List<NameOfFeatureDigital> nameOfFeatureDigitals) {
-		this.nameOfFeatureDigitals = nameOfFeatureDigitals;
-	}
-
-	public List<NameOfFeatureString> getNameOfFeatureStrings() {
-		return nameOfFeatureStrings;
-	}
-
-	public void setNameOfFeatureStrings(List<NameOfFeatureString> nameOfFeatureStrings) {
-		this.nameOfFeatureStrings = nameOfFeatureStrings;
 	}
 
 	@Override

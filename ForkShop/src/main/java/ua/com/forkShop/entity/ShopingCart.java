@@ -31,6 +31,16 @@ public class ShopingCart {
 		items.add(e);
 		count = items.size();
 	}
+	
+	public void remove(Item e) {
+		items.remove(e);
+		count = items.size();
+	}
+	
+	public void removeAll(List<Item> item) {
+		items.removeAll(items);
+		count = items.size();
+	}
 
 	public int getId() {
 		return id;

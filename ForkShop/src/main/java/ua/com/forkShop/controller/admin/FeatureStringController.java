@@ -20,11 +20,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import ua.com.forkShop.dto.filter.BasicFilter;
-import ua.com.forkShop.editor.NameOfFeatureStringEditor;
 import ua.com.forkShop.entity.FeatureString;
-import ua.com.forkShop.entity.NameOfFeatureString;
 import ua.com.forkShop.service.FeatureStringService;
-import ua.com.forkShop.service.NameOfFeatureStringService;
 import ua.com.forkShop.validator.FeatureStringValidator;
 
 @Controller
@@ -35,13 +32,8 @@ public class FeatureStringController {
 	@Autowired
 	private FeatureStringService featureStringService;
 
-	@Autowired
-	private NameOfFeatureStringService nameOfFeatureStringService;
-
 	@InitBinder("fs")
 	protected void initBinder(WebDataBinder binder) {
-		binder.registerCustomEditor(NameOfFeatureString.class,
-				new NameOfFeatureStringEditor(nameOfFeatureStringService));
 		binder.setValidator(new FeatureStringValidator(featureStringService));
 	}
 
@@ -58,7 +50,6 @@ public class FeatureStringController {
 	@RequestMapping
 	public String show(Model model, @PageableDefault Pageable pageable, @ModelAttribute("filter") BasicFilter filter) {
 		model.addAttribute("page", featureStringService.findAll(filter, pageable));
-		model.addAttribute("nofss", nameOfFeatureStringService.findAll());
 		return "admin-featureString";
 	}
 

@@ -15,7 +15,6 @@ import org.springframework.data.jpa.domain.Specification;
 import ua.com.forkShop.dto.filter.FeatureDigitalFilter;
 import ua.com.forkShop.dto.filter.ItemFilter;
 import ua.com.forkShop.entity.DigitalUnit;
-import ua.com.forkShop.entity.FeatureDigital;
 import ua.com.forkShop.entity.FeatureString;
 import ua.com.forkShop.entity.Item;
 
@@ -27,16 +26,6 @@ public class ItemSpecification implements Specification<Item> {
 
 	public ItemSpecification(ItemFilter filter) {
 		this.filter = filter;
-	}
-
-	private void filterByFeatureDigital(Root<Item> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-		for (FeatureDigitalFilter digitalFilter : filter.getFeatureDigitalFilter()) {
-			DigitalSpecification specification = new DigitalSpecification(digitalFilter);
-			Predicate predicate = specification.toPredicate(root, query, cb);
-			if (predicate != null) {
-				predicates.add(predicate);
-			}
-		}
 	}
 
 	private void filterByFeatureString(Root<Item> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
@@ -68,73 +57,6 @@ public class ItemSpecification implements Specification<Item> {
 		}
 	}
 
-	private class DigitalSpecification implements Specification<Item> {
-
-		private final FeatureDigitalFilter digitalFilter;
-
-		private final List<Predicate> predicatesDigital = new ArrayList<>();
-
-		public DigitalSpecification(FeatureDigitalFilter digitalFilter) {
-			this.digitalFilter = digitalFilter;
-		}
-
-		private void filterByValue(Root<Item> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-			if (digitalFilter.getMaxValue() != null && digitalFilter.getMinValue() != null) {
-				filterByMinMaxValue(root, query, cb);
-			} else if (digitalFilter.getMaxValue() != null) {
-				filterByMaxValue(root, query, cb);
-			} else if (digitalFilter.getMinValue() != null) {
-				filterByMinValue(root, query, cb);
-			}
-		}
-
-		private void filterByMinValue(Root<Item> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-			filterByNameId(root, query, cb);
-			filterByDuId(root, query, cb);
-			Join<Item, FeatureDigital> join = root.join("featureDigitals");
-			predicatesDigital.add(cb.greaterThanOrEqualTo(join.get("value"), digitalFilter.getMinValue()));
-		}
-
-		private void filterByMaxValue(Root<Item> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-			filterByNameId(root, query, cb);
-			filterByDuId(root, query, cb);
-			Join<Item, FeatureDigital> join = root.join("featureDigitals");
-			predicatesDigital.add(cb.lessThanOrEqualTo(join.get("value"), digitalFilter.getMaxValue()));
-		}
-
-		private void filterByMinMaxValue(Root<Item> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-			filterByNameId(root, query, cb);
-			filterByDuId(root, query, cb);
-			Join<Item, FeatureDigital> join = root.join("featureDigitals");
-			predicatesDigital
-					.add(cb.between(join.get("value"), digitalFilter.getMinValue(), digitalFilter.getMaxValue()));
-		}
-
-		private void filterByDuId(Root<Item> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-			if (digitalFilter.getDuId() != null) {
-				Join<Item, FeatureDigital> join = root.join("featureDigitals");
-				Join<FeatureDigital, DigitalUnit> joinMs = join.join("digitalUnits");
-				predicatesDigital.add(cb.equal(joinMs.get("id"), digitalFilter.getDuId()));
-			}
-		}
-
-		private void filterByNameId(Root<Item> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-			if (digitalFilter.getNameId() != null) {
-				Join<Item, FeatureDigital> join = root.join("featureDigitals");
-				predicatesDigital.add(cb.equal(join.get("nameOfFeatureDigital"), digitalFilter.getNameId()));
-			}
-		}
-
-		@Override
-		public Predicate toPredicate(Root<Item> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-			filterByValue(root, query, cb);
-			if (predicatesDigital.isEmpty())
-				return null;
-			Predicate[] array = new Predicate[predicatesDigital.size()];
-			predicatesDigital.toArray(array);
-			return cb.and(array);
-		}
-	}
 
 	private void fetch(Root<Item> root, CriteriaQuery<?> query) {
 		if (query.getResultType() != Long.class) {
@@ -151,7 +73,6 @@ public class ItemSpecification implements Specification<Item> {
 		filterByPrice(root, query, cb);
 		filterByFeatureString(root, query, cb);
 		filterByBrand(root, query, cb);
-		filterByFeatureDigital(root, query, cb);
 		if (predicates.isEmpty())
 			return null;
 		Predicate[] array = new Predicate[predicates.size()];

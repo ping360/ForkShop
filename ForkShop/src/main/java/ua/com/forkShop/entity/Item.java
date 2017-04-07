@@ -52,12 +52,6 @@ public class Item {
 			inverseJoinColumns=@JoinColumn(name="id_feature_string"))
 	private List<FeatureString> featureStrings = new ArrayList<FeatureString>();
 	
-	@ManyToMany
-	@JoinTable(name="item_feature_digital",
-			joinColumns=@JoinColumn(name="id_item"),
-			inverseJoinColumns=@JoinColumn(name="id_feature_digital"))
-	private List<FeatureDigital> featureDigitals = new ArrayList<FeatureDigital>();
-
 	@ManyToMany(mappedBy="items")
 	private List<ShopingCart> shopingCarts = new ArrayList<>();
 	
@@ -123,14 +117,6 @@ public class Item {
 
 	public void setFeatureStrings(List<FeatureString> featureStrings) {
 		this.featureStrings = featureStrings;
-	}
-
-	public List<FeatureDigital> getFeatureDigitals() {
-		return featureDigitals;
-	}
-
-	public void setFeatureDigitals(List<FeatureDigital> featureDigitals) {
-		this.featureDigitals = featureDigitals;
 	}
 
 	public Integer getVersion() {

@@ -9,4 +9,12 @@ public interface UserService {
 	int createNewUser();
 
 	void addToShoppingCart(int userId, int itemId);
+	
+	void removeToShoppingCart(int userId, int itemId);
+
+	void removeAllToShoppingCart(int userId);
+	
+	public void sendMail(String content, String email, String mailBody);
+
+	User findByEmail(String email);
 }

@@ -10,22 +10,22 @@
 				<label for="email" class="col-sm-offset-4 col-sm-4"><form:errors path="email"/></label>
 			</div>
 			<div class="form-group">
-    			<label for="email" class="col-sm-4 control-label">Name</label>
+    			<label for="email" class="col-sm-4 control-label">Email</label>
     			<div class="col-sm-4">
       				<form:input class="form-control" path="email" id="name"/>
     			</div>
   			</div>
   			<div class="form-group">
-				<label for="username" style="color:red;text-align:left;" class="col-sm-10 col-sm-offset-2 control-label"><form:errors path="username"/></label>
+				<label for="name" style="color:red;text-align:left;" class="col-sm-4 col-sm-offset-4 control-label"><form:errors path="name"/></label>
 			</div>
   			<div class="form-group">
-    			<label for="username" class="col-sm-4 control-label">Email</label>
+    			<label for="name" class="col-sm-4 control-label">Name</label>
     			<div class="col-sm-4">
-      				<form:input class="form-control" path="username" id="user"/>
+      				<form:input class="form-control" path="name" id="user"/>
     			</div>
   			</div>
   			<div class="form-group">
-				<label for="password" style="color:red;text-align:left;" class="col-sm-10 col-sm-offset-2 control-label"><form:errors path="password"/></label>
+				<label for="password" style="color:red;text-align:left;" class="col-sm-4 col-sm-offset-4 control-label"><form:errors path="password"/></label>
 			</div>
 			<div class="form-group">
     			<label for="password" class="col-sm-4 control-label">Password</label>

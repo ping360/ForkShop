@@ -25,9 +25,6 @@ public class DigitalUnit {
 	@ManyToMany(mappedBy="digitalUnits")
 	private List<Item> items = new ArrayList<Item>();
 	
-	@ManyToMany(mappedBy="digitalUnits")
-	private List<FeatureDigital> featureDigitals = new ArrayList<FeatureDigital>();
-
 	public int getId() {
 		return id;
 	}
@@ -50,14 +47,6 @@ public class DigitalUnit {
 
 	public void setItems(List<Item> items) {
 		this.items = items;
-	}
-
-	public List<FeatureDigital> getFeatureDigitals() {
-		return featureDigitals;
-	}
-
-	public void setFeatureDigitals(List<FeatureDigital> featureDigitals) {
-		this.featureDigitals = featureDigitals;
 	}
 
 	@Override

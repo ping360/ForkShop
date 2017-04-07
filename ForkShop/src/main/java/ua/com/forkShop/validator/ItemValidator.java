@@ -24,10 +24,5 @@ public class ItemValidator implements Validator {
 		if(!PATTERN.matcher(item.getPrice()).matches()){
 			errors.rejectValue("price", "", "Wrong format, only 2 digits after separator");
 		}
-		for(int i = 0; i < item.getFeatureDigitals().size(); i++){
-			if(!PATTERN.matcher(item.getFeatureDigitals().get(i).getValue()).matches()){
-				errors.rejectValue("featureDigitals["+i+"].value", "", "Wrong format, only 2 digits after separator");
-			}
-		}
-}
+	}
 }

@@ -24,8 +24,6 @@ import ua.com.forkShop.dto.filter.BasicFilter;
 import ua.com.forkShop.editor.CategoryEditor;
 import ua.com.forkShop.entity.Category;
 import ua.com.forkShop.service.CategoryService;
-import ua.com.forkShop.service.NameOfFeatureDigitalService;
-import ua.com.forkShop.service.NameOfFeatureStringService;
 import ua.com.forkShop.validator.CategoryValidator;
 
 @Controller
@@ -46,11 +44,6 @@ public class CategoryController {
 		return new BasicFilter();
 	}
 
-	@Autowired
-	private NameOfFeatureStringService nameOfFeatureStringService;
-
-	@Autowired
-	private NameOfFeatureDigitalService nameOfFeatureDigitalService;
 
 	@InitBinder("category")
 	protected void initBinder(WebDataBinder binder) {
@@ -85,46 +78,6 @@ public class CategoryController {
 		categoryService.delete(id);
 		return "redirect:/admin/category";
 	}
-
-	@RequestMapping("/add/nofs/{id}")
-	public String showAddNofs(@PathVariable int id, Model model, @PageableDefault Pageable pageable, @ModelAttribute("filter") BasicFilter filter){
-		Category category = categoryService.loadedNofs(id);
-		model.addAttribute("category", category);
-		model.addAttribute("page", nameOfFeatureStringService.findAllExcludeLoaded(filter, pageable, category));
-		return "admin-addNofs";
-	}
-	
-	@RequestMapping("/add/nofs/{id}/{nofsId}")
-	public String saveAddNoss(@PathVariable int id, @PathVariable int nofsId, @PageableDefault Pageable pageable, @ModelAttribute("filter") BasicFilter filter){
-		categoryService.addNofs(id, nofsId);
-		return "redirect:/admin/category/add/nofs/"+id+getParams(pageable, filter);
-	}
-	
-	@RequestMapping("/delete/nofs/{id}/{nofsId}")
-	public String deleteNofs(@PathVariable int id,@PathVariable int nofsId,  @PageableDefault Pageable pageable, @ModelAttribute("filter") BasicFilter filter){
-		categoryService.deleteNofs(id, nofsId);
-		return "redirect:/admin/category/add/nofs/"+id+getParams(pageable, filter);
-	}
-	
-	@RequestMapping("/add/nofd/{id}")
-	public String showAddNosd(@PathVariable int id, Model model, @PageableDefault Pageable pageable, @ModelAttribute("filter") BasicFilter filter){
-		Category category = categoryService.loadedNofd(id);
-		model.addAttribute("category", category);
-		model.addAttribute("page", nameOfFeatureDigitalService.findAllExcludeLoaded(filter, pageable, category));
-		return "admin-addNofd";
-	}
-	
-	@RequestMapping("/add/nofd/{id}/{nofdId}")
-	public String saveAddNofd(@PathVariable int id,@PathVariable int nofdId, @PageableDefault Pageable pageable, @ModelAttribute("filter") BasicFilter filter){
-		categoryService.addNofd(id, nofdId);
-		return "redirect:/admin/category/add/nofd/"+id+getParams(pageable, filter);
-	}
-	
-	@RequestMapping("/delete/nofd/{id}/{nofdId}")
-	public String deleteNofd(@PathVariable int id,@PathVariable int nofdId,  @PageableDefault Pageable pageable, @ModelAttribute("filter") BasicFilter filter){
-		categoryService.deleteNofd(id, nofdId);
-		return "redirect:/admin/category/add/nofd/"+id+getParams(pageable, filter);
-}
 	
 	@RequestMapping("/cancel")
 	public String cancel(SessionStatus status) {

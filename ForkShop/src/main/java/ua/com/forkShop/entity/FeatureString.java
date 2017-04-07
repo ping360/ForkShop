@@ -26,10 +26,6 @@ public class FeatureString {
 	@Column(name="_name")
 	private String name;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id_name_of_feature_string")
-	private NameOfFeatureString nameOfFeatureString;
-	
 	@ManyToMany(mappedBy="featureStrings")
 	private List<Item> items = new ArrayList<Item>();
 
@@ -47,14 +43,6 @@ public class FeatureString {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public NameOfFeatureString getNameOfFeatureString() {
-		return nameOfFeatureString;
-	}
-
-	public void setNameOfFeatureString(NameOfFeatureString nameOfFeatureString) {
-		this.nameOfFeatureString = nameOfFeatureString;
 	}
 
 	public List<Item> getItems() {

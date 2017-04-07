@@ -1,6 +1,17 @@
 package ua.com.forkShop.service.implementation;
 
+import java.util.List;
+import java.util.Properties;
+
 import javax.annotation.PostConstruct;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -42,22 +53,39 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return userRepository.findByUsername(username);
+	public UserDetails loadUserByUsername(String username)
+			throws UsernameNotFoundException {
+		return userRepository.findByEmail(username);
 	}
 
 	@PostConstruct
 	public void addAdmin() {
-		User user = userRepository.findByUsername("admin");
+		User user = userRepository.findByEmail("admin");
 		if (user == null) {
 			user = new User();
-			user.setEmail("");
+			user.setEmail("admin");
 			user.setPassword(encoder.encode("admin"));
 			user.setRole(Role.ROLE_ADMIN);
-			user.setUsername("admin");
 			userRepository.save(user);
 		}
 	}
+//	@Override
+//	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//		return userRepository.findByUsername(username);
+//	}
+//
+//	@PostConstruct
+//	public void addAdmin() {
+//		User user = userRepository.findByUsername("admin");
+//		if (user == null) {
+//			user = new User();
+//			user.setEmail("");
+//			user.setPassword(encoder.encode("admin"));
+//			user.setRole(Role.ROLE_ADMIN);
+//			user.setUsername("admin");
+//			userRepository.save(user);
+//		}
+//	}
 	
 	@Override
 	@Transactional
@@ -70,6 +98,24 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		}
 		Item item = itemRepository.findOne(itemId);
 		cart.add(item);
+	}
+	
+	@Override
+	@Transactional
+	public void removeToShoppingCart(int userId, int itemId) {
+		User user = userRepository.findOne(userId);
+		ShopingCart cart = user.getShopingCart();
+		Item item = itemRepository.findOne(itemId);
+		cart.remove(item);
+	}
+	
+	@Override
+	@Transactional
+	public void removeAllToShoppingCart(int userId) {
+		User user = userRepository.findOne(userId);
+		ShopingCart cart = user.getShopingCart();
+		List<Item> item = itemRepository.findAll();
+		cart.removeAll(item);
 	}
 	
 	@Override
@@ -92,5 +138,40 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	public void setItemRepository(ItemRepository itemRepository) {
 		this.itemRepository = itemRepository;
 }
+	@Override
+	public void sendMail(String content, String email, String mailBody) {
+		Properties properties = System.getProperties();
+		properties.setProperty("mail.smtp.starttls.enable", "true");
+		properties.setProperty("mail.smtp.auth", "true");
+		properties.setProperty("mail.smtp.port", "465");
+		properties.setProperty("mail.smtp.host", "smtp.gmail.com");
+		properties.setProperty("mail.smtp.socketFactory.port", "465");
+		properties.setProperty("mail.smtp.socketFactory.class",
+				"javax.net.ssl.SSLSocketFactory");
+		Session session = Session.getDefaultInstance(properties,
+				new Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(
+								"USERNAME", "PASSWORD");
+					}
+				});
+		try {
+			MimeMessage message = new MimeMessage(session);
+			message.setFrom(new InternetAddress("USERNAME"));
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(
+					email));
+			message.setSubject(content, "UTF-8");
+			message.setText(mailBody);
+			Transport.send(message);
+		} catch (MessagingException е) {
+			е.printStackTrace();
+		}
+	}
+
+	@Override
+	public User findByEmail(String email) {
+		return userRepository.findByEmail(email);
+	}
+
 
 }

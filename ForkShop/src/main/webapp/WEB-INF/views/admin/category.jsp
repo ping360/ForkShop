@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="/WEB-INF/custom.tld" prefix="custom"%>
 <div class="row">
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
@@ -13,11 +14,9 @@
 			</button>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
-					<li><a href="/admin/category">Category</a></li>
+					<li class="active"><a href="/admin/category">Category</a></li>
 					<li><a href="/admin/du">Digital Unit</a></li>
 					<li><a href="/admin/brand">Brand</a></li>
-					<li><a href="/admin/nofd">Name of feature digital</a></li>
-					<li><a href="/admin/nofs">Name of feature string</a></li>
 					<li><a href="/admin/fs">Feature String</a></li>
 					<li><a href="/admin/item">Item</a></li>
 				</ul>

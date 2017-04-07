@@ -11,17 +11,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ua.com.forkShop.dto.filter.ItemFilter;
-import ua.com.forkShop.dto.form.FeatureDigitalForm;
 import ua.com.forkShop.dto.form.ItemForm;
-import ua.com.forkShop.entity.FeatureDigital;
 import ua.com.forkShop.entity.Item;
 import ua.com.forkShop.repository.BrandRepository;
 import ua.com.forkShop.repository.CategoryRepository;
 import ua.com.forkShop.repository.DigitalUnitRepository;
-import ua.com.forkShop.repository.FeatureDigitalRepository;
 import ua.com.forkShop.repository.FeatureStringRepository;
 import ua.com.forkShop.repository.ItemRepository;
-import ua.com.forkShop.repository.NameOfFeatureDigitalRepository;
 import ua.com.forkShop.service.FileWriter;
 import ua.com.forkShop.service.FileWriter.Folder;
 import ua.com.forkShop.service.ItemService;
@@ -38,12 +34,6 @@ public class ItemServiceImpl implements ItemService {
 
 	@Autowired
 	private FeatureStringRepository featureStringRepository;
-
-	@Autowired
-	private FeatureDigitalRepository featureDigitalRepository;
-
-	@Autowired
-	private NameOfFeatureDigitalRepository nameOfFeatureDigitalRepository;
 
 	@Autowired
 	private DigitalUnitRepository digitalUnitRepository;
@@ -72,30 +62,17 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	@Transactional
 	public void save(ItemForm itemForm) {
-		List<FeatureDigital> fds = new ArrayList<FeatureDigital>();
-		for (FeatureDigitalForm featureDigital : itemForm.getFeatureDigitals()) {
-			FeatureDigital fd = featureDigitalRepository.findByNofdValue(
-					featureDigital.getNameOfFeatureDigital().getId(),
-					new BigDecimal(featureDigital.getValue().replace(',', '.')));
-			if (fd == null) {
-				fd = new FeatureDigital();
-				fd.setDigitalUnits(featureDigital.getDigitalUnits());
-				fd.setNameOfFeatureDigital(featureDigital.getNameOfFeatureDigital());
-				fd.setValue(new BigDecimal(featureDigital.getValue()));
-			}
-			featureDigitalRepository.save(fd);
-			fds.add(fd);
-		}
 		Item item = new Item();
-		item.setId(itemForm.getId());
 		item.setName(itemForm.getName());
+		item.setPrice(new BigDecimal(itemForm.getPrice().replace(',', '.')));
+		item.setId(itemForm.getId());
 		item.setCategory(itemForm.getCategory());
 		item.setBrand(itemForm.getBrand());
+//		item.setDigitalUnits(itemForm.getDigitalUnits());
 		item.getDigitalUnits().addAll(itemForm.getDigitalUnits());
-		item.setFeatureStrings(itemForm.getFeatureStrings());
-		item.setPrice(new BigDecimal(itemForm.getPrice().replace(',', '.')));
+		item.getFeatureStrings().addAll(itemForm.getFeatureStrings());
+//		item.setFeatureStrings(itemForm.getFeatureStrings());
 		item = itemRepository.saveAndFlush(item);
-		item.setFeatureDigitals(fds);
 		if (fileWriter.write(Folder.ITEM, itemForm.getFile(), item.getId())) {
 			if (item.getVersion() == null)
 				item.setVersion(0);
@@ -107,9 +84,9 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public Page<Item> findAll(ItemFilter filter, Pageable pageable) {
-		System.out.println("-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-");
+//		System.out.println("-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-");
 		Page<Item> items = itemRepository.findAll(new ItemSpecification(filter), pageable);
-		System.out.println("-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-");
+//		System.out.println("-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-*-v-");
 		return items;
 	}
 
@@ -125,4 +102,14 @@ public class ItemServiceImpl implements ItemService {
 	public List<Item> findByUserId(int userId) {
 		return itemRepository.findByUserId(userId);
 	}
+
+	@Override
+	public Item findOne(int id) {
+		return itemRepository.findOne(id);
+	}
+
+//	@Override
+//	public List<Item> findAllPrice(int itemId) {
+//		return itemRepository.findAllPrice(itemId);
+//	}
 }

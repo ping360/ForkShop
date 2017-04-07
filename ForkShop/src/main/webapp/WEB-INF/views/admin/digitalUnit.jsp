@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="/WEB-INF/custom.tld" prefix="custom"%>
 <div class="row">
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
@@ -17,8 +18,6 @@
 					<li class="active"><a href="/admin/du">Digital Unit</a><span
 						class="sr-only">(current)</span></li>
 					<li><a href="/admin/brand">Brand</a></li>
-					<li><a href="/admin/nofd">Name of feature digital</a></li>
-					<li><a href="/admin/nofs">Name of feature string</a></li>
 					<li><a href="/admin/fs">Feature String</a></li>
 					<li><a href="/admin/item">Item</a></li>
 				</ul>
