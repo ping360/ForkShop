@@ -21,12 +21,11 @@
 	<div>
 		<a href="/iNeedIt/" class="btn btn-primary">Buy</a>
 		<p>
-<!-- 			Total price -->
+			<!-- 			Total price -->
 			<c:forEach items="${items}" var="item">
 				<p>${item.price} грн</p>
 			</c:forEach>
-		<div class="btn-modal-cart total-cost">Total price ${totalPrice}
-			грн.
-			</div>
+		<div class="btn-modal-cart total-cost">Total price:
+			${totalPrice} грн.</div>
 	</div>
 </div>

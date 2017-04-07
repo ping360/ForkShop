@@ -104,6 +104,11 @@ public class IndexComtroller {
 		// model.addAttribute("cartItemPrice",
 		// cartItemRepository.findAllPrice(cartId));
 		// }
+		BigDecimal totalPrice = new BigDecimal(0);
+		for (Item  item : itemService.findAll()) {
+			 totalPrice = totalPrice.add(item.getPrice());
+		}
+   model.addAttribute("totalPrice", totalPrice);
 		return "user-shopping";
 	}
 
@@ -120,11 +125,11 @@ public class IndexComtroller {
 			@CookieValue(defaultValue = "0", name = "userId") int userId,
 			@PathVariable int itemId,Model model) {
 		userService.addToShoppingCart(userId, itemId);
-		BigDecimal totalPrice = new BigDecimal(0);
-		for (Item  item : itemService.findAll()) {
-			 totalPrice = totalPrice.add(item.getPrice());
-		}
-   model.addAttribute("totalPrice", totalPrice);
+//		BigDecimal totalPrice = new BigDecimal(0);
+//		for (Item  item : itemService.findAll()) {
+//			 totalPrice = totalPrice.add(item.getPrice());
+//		}
+//   model.addAttribute("totalPrice", totalPrice);
 		return "redirect:/";
 	}
 
