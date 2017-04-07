@@ -16,7 +16,7 @@
     			</div>
   			</div>
   			<div class="form-group">
-				<label for="name" style="color:red;text-align:left;" class="col-sm-4 col-sm-offset-4 control-label"><form:errors path="name"/></label>
+<%-- 				<label for="name" style="color:red;text-align:left;" class="col-sm-4 col-sm-offset-4 control-label"><form:errors path="name"/></label> --%>
 			</div>
   			<div class="form-group">
     			<label for="name" class="col-sm-4 control-label">Name</label>
@@ -25,7 +25,7 @@
     			</div>
   			</div>
   			<div class="form-group">
-				<label for="password" style="color:red;text-align:left;" class="col-sm-4 col-sm-offset-4 control-label"><form:errors path="password"/></label>
+<%-- 				<label for="password" style="color:red;text-align:left;" class="col-sm-4 col-sm-offset-4 control-label"><form:errors path="password"/></label> --%>
 			</div>
 			<div class="form-group">
     			<label for="password" class="col-sm-4 control-label">Password</label>

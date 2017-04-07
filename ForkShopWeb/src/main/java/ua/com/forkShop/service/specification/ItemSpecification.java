@@ -31,13 +31,26 @@ public class ItemSpecification implements Specification<Item> {
 	private void filterByFeatureString(Root<Item> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 		if (!filter.getFsIds().isEmpty()) {
 			Join<Item, FeatureString> join = root.join("featureStrings");
-			predicates.add(join.get("id").in(filter.getFsIds()));
+			predicates.add(join.join("featureStrings").in(filter.getFsIds()));
+		}
+	}
+	
+	private void filterByDigitalUnit(Root<Item> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+		if (!filter.getFsIds().isEmpty()) {
+			Join<Item, FeatureString> join = root.join("digitalUnits");
+			predicates.add(join.join("digitalUnits").in(filter.getDigitalUnits()));
 		}
 	}
 
 	private void filterByBrand(Root<Item> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 		if (!filter.getBrandIds().isEmpty()) {
 			predicates.add(root.get("brand").in(filter.getBrandIds()));
+		}
+	}
+	
+	private void filterByCategory(Root<Item> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+		if (!filter.getCategorysIds().isEmpty()) {
+			predicates.add(root.get("category").in(filter.getCategorysIds()));
 		}
 	}
 	
@@ -62,6 +75,8 @@ public class ItemSpecification implements Specification<Item> {
 		if (query.getResultType() != Long.class) {
 			root.fetch("category", JoinType.LEFT);
 			root.fetch("brand", JoinType.LEFT);
+			root.joinList("featureStrings", JoinType.LEFT);
+			root.joinList("digitalUnits", JoinType.LEFT);
 		}
 	}
 
@@ -73,6 +88,8 @@ public class ItemSpecification implements Specification<Item> {
 		filterByPrice(root, query, cb);
 		filterByFeatureString(root, query, cb);
 		filterByBrand(root, query, cb);
+		filterByDigitalUnit(root, query, cb);
+		filterByCategory(root, query, cb);
 		if (predicates.isEmpty())
 			return null;
 		Predicate[] array = new Predicate[predicates.size()];

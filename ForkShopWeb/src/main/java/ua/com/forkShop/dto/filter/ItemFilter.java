@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import ua.com.forkShop.entity.DigitalUnit;
+
 public class ItemFilter {
 
 	private static final Pattern PEATTERN = Pattern.compile("[0-9]+");
@@ -19,17 +21,37 @@ public class ItemFilter {
 	private Integer min;
 
 	private List<Integer> brandIds = new ArrayList<>();
+	
+	private List<Integer> categorysIds = new ArrayList<>();
 
 	private List<Integer> fsIds = new ArrayList<>();
 
 	private List<FeatureDigitalFilter> featureDigitalFilter = new ArrayList<>();
+	
+	private List<DigitalUnit> digitalUnits = new ArrayList<>();
 
 	public String getSearch() {
 		return search;
 	}
 
+	public List<Integer> getCategorysIds() {
+		return categorysIds;
+	}
+
+	public void setCategorysIds(List<Integer> categorysIds) {
+		this.categorysIds = categorysIds;
+	}
+
 	public void setSearch(String search) {
 		this.search = search;
+	}
+
+	public List<DigitalUnit> getDigitalUnits() {
+		return digitalUnits;
+	}
+
+	public void setDigitalUnits(List<DigitalUnit> digitalUnits) {
+		this.digitalUnits = digitalUnits;
 	}
 
 	public String getMaxPrice() {

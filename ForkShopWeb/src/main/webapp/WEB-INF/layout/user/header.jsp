@@ -48,7 +48,7 @@
 			<sec:authorize access="!isAuthenticated()">
 				<form:form class="navbar-form navbar-right" action="/login"	method="POST">
 					<div class="form-group">
-						<input class="form-control" placeholder="Login" name="login"
+						<input class="form-control" placeholder="Em@il" name="login"
 							id="login">
 					</div>
 					<div class="form-group">

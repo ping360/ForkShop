@@ -11,7 +11,7 @@
 	<div class="col-sm-12 col-xs-12">
 		<form:form class="form-horizontal" action="/login" method="POST">
 			<div class="form-group">
-    			<label for="login" class="col-sm-4 control-label">Login</label>
+    			<label for="login" class="col-sm-4 control-label">Em@il</label>
     			<div class="col-sm-4">
       				<input class="form-control" name="login" id="login">
     			</div>
