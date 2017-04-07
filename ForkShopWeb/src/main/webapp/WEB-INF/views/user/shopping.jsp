@@ -9,7 +9,7 @@
 				<p>${item.name}</p>
 				<p>${item.price} грн</p>
 				<div>
-					<a href="/del/${item.id}" class="btn btn-primary">Kick fro here!</a>
+					<a href="/del/${item.id}" class="btn btn-primary">Kick from Cart!</a>
 				</div>
 			</div>
 		</c:forEach>
